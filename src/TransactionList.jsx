@@ -42,7 +42,11 @@ export default function TransactionList({ transactions, onDelete }) {
           </tr>
         </thead>
         <tbody>
-          {filtered.map(t => (
+          {filtered.length === 0 ? (
+            <tr>
+              <td colSpan={5} className="empty-state">No transactions match these filters.</td>
+            </tr>
+          ) : filtered.map(t => (
             <tr key={t.id}>
               <td>{t.date}</td>
               <td>{t.description}</td>

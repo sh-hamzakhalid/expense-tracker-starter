@@ -31,23 +31,31 @@ export default function TransactionForm({ onAdd }) {
     <div className="add-transaction">
       <h2>Add Transaction</h2>
       <form onSubmit={handleSubmit}>
+        <label htmlFor="description" className="sr-only">Description</label>
         <input
+          id="description"
           type="text"
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+        <label htmlFor="amount" className="sr-only">Amount</label>
         <input
+          id="amount"
           type="number"
           placeholder="Amount"
+          min="0.01"
+          step="0.01"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
         />
-        <select value={type} onChange={(e) => setType(e.target.value)}>
+        <label htmlFor="type" className="sr-only">Type</label>
+        <select id="type" value={type} onChange={(e) => setType(e.target.value)}>
           <option value="income">Income</option>
           <option value="expense">Expense</option>
         </select>
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+        <label htmlFor="category" className="sr-only">Category</label>
+        <select id="category" value={category} onChange={(e) => setCategory(e.target.value)}>
           {categories.map(cat => (
             <option key={cat} value={cat}>{cat}</option>
           ))}
