@@ -16,13 +16,20 @@ There are no tests in this project.
 
 ## Architecture
 
-This is a single-page React app (Vite + React 19) with no routing, no state management library, and no backend. All state lives in `App.jsx` via `useState`.
+This is a single-page React app (Vite + React 19) with no routing, no state management library, and no backend.
 
-**Key facts about `src/App.jsx`:**
-- All application logic is in one file — there are no sub-components yet.
-- `transactions` is an array of objects: `{ id, description, amount, type, category, date }`.
-- `amount` is stored as a **string**, not a number — this is an intentional bug in the starter project that causes incorrect totals (string concatenation instead of addition in `reduce`).
-- `totalIncome`, `totalExpenses`, and `balance` are derived directly from `transactions` on every render.
-- Filtering by type and category is done in-place with two sequential `.filter()` calls.
+**Component tree:**
+```
+App
+├── Summary
+├── TransactionForm
+└── TransactionList
+```
 
-**Styling:** `src/App.css` contains all styles (flat, no CSS modules or utility framework). `src/index.css` holds global resets/defaults. CSS class `.delete-btn` exists in the stylesheet but is not yet wired up in the JSX.
+**State ownership:**
+- `App.jsx` — holds the single `transactions` array (objects: `{ id, description, amount, type, category, date }`). Passes it down as props and passes `onAdd` to `TransactionForm`.
+- `TransactionForm.jsx` — owns its own form field state. Calls `onAdd(transaction)` on submit; `amount` is stored as a number (`parseFloat`).
+- `TransactionList.jsx` — owns `filterType` and `filterCategory` state. Applies two sequential `.filter()` calls to derive the visible list.
+- `Summary.jsx` — derives `totalIncome`, `totalExpenses`, and `balance` from the `transactions` prop on every render.
+
+**Styling:** `src/App.css` contains all styles (flat, no CSS modules or utility framework). `src/index.css` holds global resets/defaults. CSS class `.delete-btn` exists in the stylesheet but is not yet wired up in any component.
