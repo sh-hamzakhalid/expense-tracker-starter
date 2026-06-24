@@ -1,4 +1,4 @@
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ResponsiveContainer } from 'recharts';
 
 const COLORS = {
   housing: '#FF6B6B',
@@ -32,24 +32,16 @@ export default function SpendingChart({ transactions }) {
     <div className="spending-chart">
       <h2>Spending by Category</h2>
       <ResponsiveContainer width="100%" height={260}>
-        <PieChart>
-          <Pie
-            data={data}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            innerRadius={60}
-            outerRadius={100}
-            paddingAngle={3}
-          >
+        <BarChart data={data} margin={{ top: 8, right: 16, left: 0, bottom: 4 }}>
+          <XAxis dataKey="name" tick={{ fontSize: 13 }} />
+          <YAxis tickFormatter={(v) => `$${v}`} tick={{ fontSize: 12 }} width={60} />
+          <Tooltip formatter={(value) => `$${value.toFixed(2)}`} />
+          <Bar dataKey="value" radius={[4, 4, 0, 0]}>
             {data.map(entry => (
               <Cell key={entry.name} fill={getColor(entry.name)} />
             ))}
-          </Pie>
-          <Tooltip formatter={(value) => `$${value.toFixed(2)}`} />
-          <Legend />
-        </PieChart>
+          </Bar>
+        </BarChart>
       </ResponsiveContainer>
     </div>
   );
